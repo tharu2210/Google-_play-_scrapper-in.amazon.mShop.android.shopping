@@ -45,5 +45,5 @@ most_common_time=df['hour'].value_counts().idxmax()
 print(f"Most common time:\n",most_common_time)
 #overall sentiment of the app
 rating_sentiment=df['score'].mean()
-sentiment="Positive"if rating_sentiment>=3.5 else print("negative")
+sentiment="Positive"if rating_sentiment>=3 else print("negative")
 print(sentiment)

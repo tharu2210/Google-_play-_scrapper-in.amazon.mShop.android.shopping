@@ -39,6 +39,10 @@ print(longest_review)
 #frequency do users review the app
 frequency_re = df['reviewId'].value_counts()
 print("\nReview Frequency by Users:",frequency_re)
+#When are reviews most commonly submitted?
+df['hour']=df['at'].dt.hour
+most_common_time=df['hour'].value_counts().idxmax()
+print(f"Most common time:\n",most_common_time)
 #overall sentiment of the app
 rating_sentiment=df['score'].mean()
 sentiment="Positive"if rating_sentiment>=3.5 else print("negative")

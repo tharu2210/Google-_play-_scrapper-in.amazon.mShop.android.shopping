@@ -15,35 +15,35 @@ result, continuation_token = reviews(
     lang='en', # defaults to 'en'
     country='us', # defaults to 'us'
     sort=Sort.NEWEST, # defaults to Sort.NEWEST
-    count=200, # defaults to 100
+    count=1000, # defaults to 100
     #filter_score_with=5 # defaults to None(means all score)
 )
 df=pd.DataFrame(result)
 df.to_excel(f"amazonreview.xlsx",index=False)
 print(df)
-#csv_path="C:/java lab/python/pandas/amazonreview.csv"
-#read_f=pd.read_csv(csv_path)
-#Distribution of ratings
+#1.Distribution of ratings
 rate_dist=df['score'].value_counts()
 print("the distribution of rating is:")
 print(rate_dist)
-#total number of upvotes
+#2. total number of upvotes
 total_count=df['thumbsUpCount'].sum()
 print("\nThe Total number of upvotes:",total_count)
-# calculate lenght of each review
-words_review=df['content'].str.len()
-print(words_review)
-#longest review
+#3. determine male or female
+#we can't find male or female based on the given data. 
+
+#4. calculate lenght of each review
 longest_review=df.loc[df["content"].str.len().idxmax(), "content"]
-print(longest_review)
-#frequency do users review the app
-frequency_re = df['reviewId'].value_counts()
-print("\nReview Frequency by Users:",frequency_re)
-#When are reviews most commonly submitted?
+print("The longest reviews:",longest_review)
+#5. frequency do users review the app
+df['at'] = pd.to_datetime(df['at'])
+reviews_df=df.sort_values(by='at')
+time_between_reviews = reviews_df['at'].diff().mean()
+print(f"Average Time Between Reviews: {time_between_reviews}")
+#6. When are reviews most commonly submitted?
 df['hour']=df['at'].dt.hour
 most_common_time=df['hour'].value_counts().idxmax()
 print(f"Most common time:\n",most_common_time)
-#overall sentiment of the app
+#7. overall sentiment of the app
 rating_sentiment=df['score'].mean()
 sentiment="Positive"if rating_sentiment>=3 else print("negative")
 print(sentiment)
